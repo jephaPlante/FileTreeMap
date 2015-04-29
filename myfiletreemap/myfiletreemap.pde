@@ -67,7 +67,7 @@ void draw() {
   background(#056F81);
   textFont(font);
   fill(255);
-  String directions = "Click once in a folder to preview, twice to enter. Click an image or text file to open in its default program. Side click to step backward. Enjoy!";
+  String directions = "Click once in a folder to preview, twice to enter. Click an image, MP3, MP4, or text file to open in its default program. Side click to step backward. Enjoy!";
   text(directions,15,height-48,width-15,height-2);
   
   frameRate(30);

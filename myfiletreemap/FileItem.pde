@@ -63,10 +63,24 @@ class FileItem extends SimpleMapItem {
   
   
   void calcBox() {
-    boxLeft = zoomBounds.spanX(x, 0, width);
-    boxRight = zoomBounds.spanX(x+w, 0, width);
-    boxTop = zoomBounds.spanY(y, 0, height-50);
-    boxBottom = zoomBounds.spanY(y+h, 0, height-50);
+   // if(w>15&&h>15){
+      boxLeft = zoomBounds.spanX(x, 0, width);
+      boxRight = zoomBounds.spanX(x+w, 0, width);
+      boxTop = zoomBounds.spanY(y, 0, height-50);
+      boxBottom = zoomBounds.spanY(y+h, 0, height-50);
+   // }
+   /* else if (w<15){
+      boxLeft = zoomBounds.spanX(x, 0, width);
+      boxRight = zoomBounds.spanX(x+10, 0, width);
+      boxTop = zoomBounds.spanY(y, 0, height-50);
+      boxBottom = zoomBounds.spanY(y+h, 0, height-50);
+    }
+    else{
+       boxLeft = zoomBounds.spanX(x, 0, width);
+       boxRight = zoomBounds.spanX(x+w, 0, width);
+       boxTop = zoomBounds.spanY(y, 0, height-50);
+       boxBottom = zoomBounds.spanY(y+10, 0, height-50);
+    }*/
   }
 
 
@@ -187,12 +201,12 @@ class FileItem extends SimpleMapItem {
       if(name.indexOf(".txt")!= -1){
         String[] lines = loadStrings(path);
         char testChar = 'd'; 
-        int numLines = (int) this.h / 13;
-        int numChars = (int) (this.w/textWidth(testChar));
+        int numLines = (int) ((boxBottom - boxTop) / 13);
+        int numChars = (int) ((boxRight-boxLeft)/textWidth(testChar));
         for(int i=0;i<Math.min(numLines,lines.length);i++) {  
           String s = lines[i].substring(0,Math.min(numChars,lines[i].length()));
           fill(255);
-          text(s,x,this.y + 13*i +13);  
+          text(s,boxLeft,boxTop + 13*i +13);  
 
         }
        /* if(mouseReleased()){
@@ -231,7 +245,7 @@ class FileItem extends SimpleMapItem {
     
     }
   void drawTitle() {
-    fill(255, 200);
+    fill(0);
     
     float middleX = (boxLeft + boxRight) / 2;
     float middleY = (boxTop + boxBottom) / 2;
@@ -255,8 +269,8 @@ class FileItem extends SimpleMapItem {
     
  
   boolean mouseInside() {
-    return (mouseX > boxLeft && mouseX < boxRight && 
-            mouseY > boxTop && mouseY < boxBottom);    
+    return (mouseX >= boxLeft && mouseX <= boxRight && 
+            mouseY >= boxTop && mouseY <= boxBottom);    
   }
 /*void  mouseClicked(){
   if(name.indexOf(".txt")!= -1 || name.indexOf(".jpg")!= -1 || name.indexOf(".png")!= -1|| name.indexOf(".gif")!= -1){
